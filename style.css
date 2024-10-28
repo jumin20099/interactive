@@ -166,6 +166,10 @@ a:focus-visible {
 	grid-area: subline;
 }
 
+.frame_subline span{
+	position: absolute;
+}
+
 .frame_tags {
   grid-area: tags;
 }
@@ -355,17 +359,22 @@ a:focus-visible {
 
 .content_title-main {
 	font-size: clamp(2rem, 7vw, 4.5rem);
-	line-height: 1;
+	line-height: 100px;
 	margin: 0.5rem 0 0;
 	font-weight: 500;
 	font-variation-settings: "wght" 500;
 	text-wrap: balance;
 	letter-spacing: -0.025em;
+	/* background-color: rgba(14, 13, 14, 0.4);
+	color: white;
+	padding: 15px 10px 0px 10px; */
 }
 
 .content_title-main + p {
 	margin: 0;
 	max-width: 100px;
+	/* background-color: rgba(14, 13, 14, 0.5);
+	color: white; */
 }
 
 .center {
