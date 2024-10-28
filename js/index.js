@@ -2,8 +2,9 @@ import { preloadImages } from './utils.js';
 
 // Function to animate the header (frame)
 const animateFrame = () => {
-  const frame = document.querySelector('.frame'); 
+  const frame = document.querySelector('.frame');
   const frameTitle = frame.querySelector('.frame_title');
+  const frameSublineSpan = frame.querySelector('.frame_subline span'); // WELCOME TO span
   
   gsap.timeline({
     defaults: {
@@ -11,7 +12,7 @@ const animateFrame = () => {
     },
     scrollTrigger: {
       trigger: frame,
-      start: 'clamp(top bottom)', 
+      start: 'clamp(top bottom)',
       end: 'bottom top',
       scrub: true
     }
@@ -24,6 +25,10 @@ const animateFrame = () => {
   })
   .to(frameTitle, {
     xPercent: -80
+  }, 0)
+  .to(frameSublineSpan, {  // animate the "WELCOME TO" span
+    xPercent: 1070,
+    yPercent: -1400
   }, 0);
 };
 
