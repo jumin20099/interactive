@@ -1,6 +1,6 @@
 import { preloadImages } from './utils.js';
 
-// Function to animate the header (frame)
+// 헤더(프레임)를 애니메이션하는 함수
 const animateFrame = () => {
   const frame = document.querySelector('.frame');
   const frameTitle = frame.querySelector('.frame_title');
@@ -26,13 +26,13 @@ const animateFrame = () => {
   .to(frameTitle, {
     xPercent: -80
   }, 0)
-  .to(frameSublineSpan, {  // animate the "WELCOME TO" span
-    xPercent: 1070,
+  .to(frameSublineSpan, {  // "WELCOME TO" span 애니메이션
+    xPercent: 100,
     yPercent: -1400
   }, 0);
 };
 
-// Function to animate the first grid
+// 첫 번째 그리드를 애니메이션하는 함수
 const animateFirstGrid = () => {
   const grid = document.querySelector('[data-grid-first]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -53,7 +53,7 @@ const animateFirstGrid = () => {
     stagger: 0.07,
     y: () => gsap.utils.random(window.innerHeight, window.innerHeight * 1.8)
   })
-  // text content
+  // 텍스트 콘텐츠
   .from(grid.parentNode.querySelector('.content_title'), {
     duration: 1.2,
     ease: 'power4',
@@ -62,7 +62,7 @@ const animateFirstGrid = () => {
   }, 0.8);
 };
 
-// Function to animate the second grid
+// 두 번째 그리드를 애니메이션하는 함수
 const animateSecondGrid = () => {
   const grid = document.querySelector('[data-grid-second]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -92,7 +92,7 @@ const animateSecondGrid = () => {
       return pos < middleIndex ? distanceFromCenter * 3 : distanceFromCenter * -3;
     },
   })
-  // text content
+  // 텍스트 콘텐츠
   .from(grid.querySelectorAll('.grid_item'), {
     stagger: {
       amount: 0.3,
@@ -103,7 +103,7 @@ const animateSecondGrid = () => {
   }, 0);
 };
 
-// Function to animate the third grid
+// 세 번째 그리드를 애니메이션하는 함수
 const animateThirdGrid = () => {
   const grid = document.querySelector('[data-grid-third]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -133,7 +133,7 @@ const animateThirdGrid = () => {
     stagger: 0.06,
     filter: pos => pos < gridImages.length-1 ? 'brightness(20%)' : 'brightness(100%)'
   }, 0)
-  // text content
+  // 텍스트 콘텐츠
   .from(grid.querySelectorAll('.grid_item'), {
     xPercent: pos => pos%2 ? 100 : -100,
     autoAlpha: 0
@@ -141,14 +141,14 @@ const animateThirdGrid = () => {
 };
 
 /**
- * Calculates the initial translation and 3D rotation of an element, moving and rotating it further away from the center of the screen.
- * The rotation and Z-axis translation are proportional to the distance from the center, with elements near the center rotating less and moving less in Z.
+ * 요소의 초기 변환 및 3D 회전을 계산하여 화면 중앙에서 더 멀리 이동하고 회전시킵니다.
+ * 회전과 Z축 변환은 중앙에서의 거리와 비례하며, 중앙에 가까운 요소는 덜 회전하고 덜 이동하고, 먼 요소는 더 많이 회전하고 이동합니다.
  * 
- * @param {Element} element - The DOM element to calculate the translation and rotation for
- * @param {Number} offsetDistance - The distance by which the element will be moved away from the center (default: 250px)
- * @param {Number} maxRotation - The maximum rotation in degrees for farthest elements (default: 300 degrees)
- * @param {Number} maxZTranslation - The maximum Z-axis translation in pixels for farthest elements (default: 2000px)
- * @returns {Object} The x, y, z translation and rotateX, rotateY values as {x, y, z, rotateX, rotateY}
+ * @param {Element} element - 변환 및 회전을 계산할 DOM 요소
+ * @param {Number} offsetDistance - 요소가 중앙에서 이동할 거리 (기본값: 250px)
+ * @param {Number} maxRotation - 가장 먼 요소에 대한 최대 회전 각도 (기본값: 300도)
+ * @param {Number} maxZTranslation - 가장 먼 요소에 대한 최대 Z축 변환 (기본값: 2000px)
+ * @returns {Object} x, y, z 변환 및 rotateX, rotateY 값을 {x, y, z, rotateX, rotateY} 형태로 반환
  */
 const calculateInitialTransform = (element, offsetDistance = 250, maxRotation = 300, maxZTranslation = 2000) => {
   const viewportCenter = { width: window.innerWidth / 2, height: window.innerHeight / 2 };
@@ -157,30 +157,30 @@ const calculateInitialTransform = (element, offsetDistance = 250, maxRotation = 
     y: element.offsetTop + element.offsetHeight / 2 
   };
 
-  // Calculate the angle between the center of the element and the center of the viewport
+  // 요소의 중앙과 뷰포트의 중앙 사이의 각도 계산
   const angle = Math.atan2(Math.abs(viewportCenter.height - elementCenter.y), Math.abs(viewportCenter.width - elementCenter.x));
 
-  // Calculate the x and y translation based on the angle and distance
+  // 각도와 거리 기반으로 x 및 y 변환 계산
   const translateX = Math.abs(Math.cos(angle) * offsetDistance);
   const translateY = Math.abs(Math.sin(angle) * offsetDistance);
 
-  // Calculate the maximum possible distance from the center (diagonal of the viewport)
+  // 중앙에서 가능한 최대 거리 계산 (뷰포트의 대각선)
   const maxDistance = Math.sqrt(Math.pow(viewportCenter.width, 2) + Math.pow(viewportCenter.height, 2));
 
-  // Calculate the current distance from the center
+  // 중앙에서의 현재 거리 계산
   const currentDistance = Math.sqrt(Math.pow(viewportCenter.width - elementCenter.x, 2) + Math.pow(viewportCenter.height - elementCenter.y, 2));
 
-  // Scale rotation and Z-translation based on distance from the center (closer elements rotate/translate less, farther ones rotate/translate more)
+  // 중앙에서의 거리 기반으로 회전 및 Z 변환 비율 조정
   const distanceFactor = currentDistance / maxDistance;
 
-  // Calculate the rotation values based on the position relative to the center
+  // 중앙에 대한 위치에 따라 회전 값 계산
   const rotationX = ((elementCenter.y < viewportCenter.height ? -1 : 1) * (translateY / offsetDistance) * maxRotation * distanceFactor);
   const rotationY = ((elementCenter.x < viewportCenter.width ? 1 : -1) * (translateX / offsetDistance) * maxRotation * distanceFactor);
 
-  // Calculate the Z-axis translation (depth) based on the distance from the center
+  // 중앙에서의 거리 기반으로 Z축 변환(깊이) 계산
   const translateZ = maxZTranslation * distanceFactor;
 
-  // Determine direction based on position relative to the viewport center
+  // 뷰포트 중앙에 대한 위치에 따라 방향 결정
   return {
     x: elementCenter.x < viewportCenter.width ? -translateX : translateX,
     y: elementCenter.y < viewportCenter.height ? -translateY : translateY,
@@ -190,7 +190,7 @@ const calculateInitialTransform = (element, offsetDistance = 250, maxRotation = 
   };
 };
 
-// Function to animate the fourth grid
+// 네 번째 그리드를 애니메이션하는 함수
 const animateFourthGrid = () => {
   const grid = document.querySelector('[data-grid-fourth]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -207,18 +207,18 @@ const animateFourthGrid = () => {
       scrub: 0.2,
     }
   })
-  .set(grid, {perspective: 1000}) // Add perspective for 3D effect
+  .set(grid, {perspective: 1000}) // 3D 효과를 위한 원근 효과 추가
   .fromTo(gridImages, {
-    // Define the starting position based on the pre-calculated translation, rotation, and Z-axis translation values
+    // 미리 계산된 변환, 회전 및 Z축 변환 값을 기반으로 시작 위치 정의
     x: (_, el) => calculateInitialTransform(el).x,
     y: (_, el) => calculateInitialTransform(el).y,
-    z: (_, el) => calculateInitialTransform(el).z, // Z-axis translation
+    z: (_, el) => calculateInitialTransform(el).z, // Z축 변환
     rotateX: (_, el) => calculateInitialTransform(el).rotateX*.5,
     rotateY: (_, el) => calculateInitialTransform(el).rotateY,
     autoAlpha: 0,
     scale: 0.7,
   }, {
-    // Animate the images to their original position and remove transform
+    // 이미지들을 원래 위치로 애니메이션하고 변환 제거
     x: 0,
     y: 0,
     z: 0,
@@ -234,7 +234,7 @@ const animateFourthGrid = () => {
   });
 };
 
-// Function to animate the fourth (v2) grid
+// 네 번째 (v2) 그리드를 애니메이션하는 함수
 const animateFourthV2Grid = () => {
   const grid = document.querySelector('[data-grid-fourth-v2]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -251,12 +251,12 @@ const animateFourthV2Grid = () => {
       scrub: 0.2,
     }
   })
-  .set(grid, {perspective: 1200}) // Add perspective for 3D effect
+  .set(grid, {perspective: 1200}) // 3D 효과를 위한 원근 효과 추가
   .fromTo(gridImages, {
-    // Define the starting position based on the pre-calculated translation, rotation, and Z-axis translation values
+    // 미리 계산된 변환, 회전 및 Z축 변환 값을 기반으로 시작 위치 정의
     x: (_, el) => calculateInitialTransform(el, 900).x,
     y: (_, el) => calculateInitialTransform(el, 600).y,
-    z: (_, el) => calculateInitialTransform(el, _, _, -3000).z, // Z-axis translation
+    z: (_, el) => calculateInitialTransform(el, _, _, -3000).z, // Z축 변환
     rotateX: (_, el) => calculateInitialTransform(el, 250, -160, -3000).rotateX,
     rotateY: (_, el) => calculateInitialTransform(el, 250, -160, -3000).rotateY,
     autoAlpha: 0,
@@ -277,7 +277,7 @@ const animateFourthV2Grid = () => {
   })
 };
 
-// Function to animate the fourth grid
+// 다섯 번째 그리드를 애니메이션하는 함수
 const animateFifthGrid = () => {
   const grid = document.querySelector('[data-grid-fifth]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -309,7 +309,7 @@ const animateFifthGrid = () => {
   });
 };
 
-// Function to animate the sixth grid
+// 여섯 번째 그리드를 애니메이션하는 함수
 const animateSixthGrid = () => {
   const grid = document.querySelector('[data-grid-sixth]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -341,7 +341,7 @@ const animateSixthGrid = () => {
   }, 0);
 };
 
-// Function to animate the seventh grid
+// 일곱 번째 그리드를 애니메이션하는 함수
 const animateSeventhGrid = () => {
   const grid = document.querySelector('[data-grid-seventh]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -370,7 +370,7 @@ const animateSeventhGrid = () => {
     stagger: 0.08,
     yPercent: 102,
   }, 0)
-  // text content
+  // 텍스트 콘텐츠
   .from(grid.querySelectorAll('.grid_item'), {
     yPercent: 20,
     stagger: gridImages.length/2*0.08,
@@ -378,7 +378,7 @@ const animateSeventhGrid = () => {
   }, 0);
 };
 
-// Function to animate the eighth grid
+// 여덟 번째 그리드를 애니메이션하는 함수
 const animateEighthGrid = () => {
   const grid = document.querySelector('[data-grid-eighth]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -416,7 +416,7 @@ const animateEighthGrid = () => {
   }, 0);
 };
 
-// Function to animate the ninth grid
+// 아홉 번째 그리드를 애니메이션하는 함수
 const animateNinthGrid = () => {
   const grid = document.querySelector('[data-grid-ninth]');
   const gridImages = grid.querySelectorAll('.grid_img');
@@ -444,12 +444,12 @@ const animateNinthGrid = () => {
   });
 };
 
-// Main initialization function
+// 초기화 함수
 const init = () => {
-  // Animate the header (frame)
+  // 헤더(프레임)를 애니메이션
   animateFrame();
 
-  // Call animations for each grid based on their data attributes
+  // 각 그리드의 데이터 속성에 따라 애니메이션 호출
   animateFirstGrid();
   animateSecondGrid();
   animateThirdGrid();
@@ -461,9 +461,10 @@ const init = () => {
   animateEighthGrid();
   animateNinthGrid();
 };
-// Preload images and initialize animations
+
+// 이미지들을 미리 로드하고 애니메이션 초기화
 preloadImages('.grid_img').then(() => {
-  document.body.classList.remove('loading'); // Remove the loading class from the body
+  document.body.classList.remove('loading'); // 로딩 클래스를 바디에서 제거
   init();
   window.scrollTo(0, 0);
 });
