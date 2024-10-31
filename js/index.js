@@ -27,7 +27,7 @@ const animateFrame = () => {
     xPercent: -80
   }, 0)
   .to(frameSublineSpan, {  // "WELCOME TO" span 애니메이션
-    xPercent: 100,
+    xPercent: 1000,
     yPercent: -1400
   }, 0);
 };
