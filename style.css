@@ -4,6 +4,13 @@
 	box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'Gyeonggi_Batang_Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2410-3@1.0/Batang_Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
 :root {
 	font-size: 16px;
   --color-text: #f5f3ee;
@@ -34,6 +41,7 @@ body {
 	color: var(--color-text);
 	background-color: var(--color-bg);
 	font-family: "area-variable", sans-serif;
+	font-family: 'Gyeonggi_Batang_Regular', sans-serif;
 	font-variation-settings: "slnt" 0, "wdth" 100, "wght" 450, "INKT" 0;
 	font-weight: 450;
 	line-height: 1.2;
@@ -41,7 +49,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Page Loader */
+/* 페이지로더 */
 .js .loading::before,
 .js .loading::after {
 	content: '';
@@ -184,7 +192,7 @@ a:focus-visible {
 	grid-area: logo;
 	padding-bottom: 0.15rem;
 	font-size: 1.5rem;
-	font-family: "bricolage-grotesque-48", sans-serif;
+	font-family: "bricolage-grotesque-48", sans-serif !important;
 }
 
 .flex-line {
